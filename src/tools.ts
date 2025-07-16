@@ -92,7 +92,7 @@ export function registerTools(server: McpServer) {
                 return {
                     content: [{ 
                         type: "text", 
-                        text: `✅ Email sent successfully!\n\nTo: ${args.to}\nSubject: ${args.subject}\n\nYour email has been sent and is now in your Gmail sent folder.` 
+                        text: `✅ Email sent successfully!\n\nTo: ${args.to}\n\nYour email has been sent and is now in your Gmail sent folder.` 
                     }],
                 };
             } else {
