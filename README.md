@@ -2,10 +2,6 @@
 
 A Model Context Protocol (MCP) server that provides Gmail integration capabilities for AI models and tools. This server enables AI assistants to connect to Gmail accounts, check connection status, and send emails through a secure interface.
 
-<a href="https://glama.ai/mcp/servers/d316l4kyh7">
-  <img width="380" height="200" src="https://glama.ai/mcp/servers/d316l4kyh7/badge" alt="Gmail AI Agent MCP server" />
-</a>
-
 ## Tools
 
 The server implements the following Gmail-related tools:
