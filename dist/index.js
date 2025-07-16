@@ -1,16 +1,12 @@
 #!/usr/bin/env node
-
-import axios from "axios";
-import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { registerTools } from "./tools.js";
 // Create an MCP server
 const server = new McpServer({
-  name: "Meme Image Server",
-  version: "1.0.0",
+    name: "Meme Image Server",
+    version: "1.0.0",
 });
-
 registerTools(server);
 // // Register the generateMeme tool
 // server.tool(
@@ -30,21 +26,17 @@ registerTools(server);
 //       if (text1) formData.append("text1", text1);
 //       formData.append("username", process.env.IMGFLIP_USERNAME || "");
 //       formData.append("password", process.env.IMGFLIP_PASSWORD || "");
-
 //       // Send the request to the Imgflip API
 //       const response = await axios.post("https://api.imgflip.com/caption_image", formData, {
 //         headers: {
 //           "Content-Type": "multipart/form-data",
 //         },
 //       });
-
 //       // Get the image URL from the response
 //       const imageUrl = response.data.data.url;
-
 //       // Download the image
 //       const imageResponse = await axios.get(imageUrl, { responseType: "arraybuffer" });
 //       const imageDataBase64 = imageResponse.data.toString("base64");
-
 //       // Return the image as a base64 encoded string
 //       return {
 //         content: [{ type: "image", data: imageDataBase64, mimeType: "image/png" }],
@@ -63,7 +55,6 @@ registerTools(server);
 //     }
 //   }
 // );
-
 // Start receiving messages on stdin and sending messages on stdout
 const transport = new StdioServerTransport();
 await server.connect(transport);
