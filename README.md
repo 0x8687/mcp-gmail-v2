@@ -110,7 +110,3 @@ Then configure your MCP client to point to the built server:
 - **Connection Issues**: If you encounter connection problems, try using `connect-gmail` again to re-authenticate
 - **API Key Issues**: Ensure your Composio API key is correctly set in the environment variables
 - **Permission Errors**: Make sure you've granted the necessary permissions during the OAuth flow
-
-## Author
-
-This project is created by [Vladimir Haltakov](https://haltakov.net). If you find it interesting you can message me on X [@haltakov](https://x.com/haltakov).
