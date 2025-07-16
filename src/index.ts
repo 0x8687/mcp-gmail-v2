@@ -4,7 +4,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { registerTools } from "./tools.js";
 // Create an MCP server
 const server = new McpServer({
-  name: "Meme Image Server",
+  name: "Gmail AI Agent Server",
   version: "1.0.0",
 });
 

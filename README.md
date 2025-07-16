@@ -32,14 +32,14 @@ Sends an email through the connected Gmail account. Parameters:
 
 ### Installation
 
-You can configure the Gmail AI agent server in your client using the [`meme-mcp`](https://www.npmjs.com/package/meme-mcp) NPM package (note: package name is legacy but functionality is Gmail-focused). Here is an example configuration for Claude Desktop (Settings -> Developer -> Edit Config):
+You can configure the Gmail AI agent server in your MCP client. Here is an example configuration for Claude Desktop (Settings -> Developer -> Edit Config):
 
 ```json
 {
   "mcpServers": {
     "gmail-agent": {
-      "command": "npx",
-      "args": ["-y", "meme-mcp"],
+      "command": "node",
+      "args": ["path/to/your/gmail-mcp/dist/index.js"],
       "env": {
         "COMPOSIO_API_KEY": "<YOUR_COMPOSIO_API_KEY>"
       }
@@ -48,22 +48,33 @@ You can configure the Gmail AI agent server in your client using the [`meme-mcp`
 }
 ```
 
-### Manual Installation
+### Development Setup
 
-If you prefer to install manually, you can install the package globally:
+If you're running from source:
 
 ```bash
-npm install -g meme-mcp
+# Clone the repository
+git clone <repository-url>
+cd gmail-mcp
+
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Run the server
+npm start
 ```
 
-Then use it directly in your configuration:
+Then configure your MCP client to point to the built server:
 
 ```json
 {
   "mcpServers": {
     "gmail-agent": {
-      "command": "/Users/<USERNAME>/.nvm/versions/node/v20.18.2/bin/node",
-      "args": ["/Users/<USERNAME>/.nvm/versions/node/v20.18.2/lib/node_modules/meme-mcp/dist/index.js"],
+      "command": "node",
+      "args": ["/path/to/gmail-mcp/dist/index.js"],
       "env": {
         "COMPOSIO_API_KEY": "<YOUR_COMPOSIO_API_KEY>"
       }
