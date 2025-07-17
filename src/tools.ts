@@ -112,5 +112,5 @@ export function registerTools(server: McpServer) {
                 }],
             };
         }
-    });
+    });   
 }
