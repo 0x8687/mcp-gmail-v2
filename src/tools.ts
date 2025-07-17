@@ -5,13 +5,14 @@ import { VercelAIToolSet } from "composio-core";
 const toolset = new VercelAIToolSet({
     apiKey: process.env.COMPOSIO_API_KEY || '4xyic69yfd4610srw8cebg',
 });
+import { logger } from './utils/logger.js';
 
 export function registerTools(server: McpServer) {
     // Authentication & Connection Tools
     server.tool("connect_gmail", "Connect to Gmail", {}, async (args, extra) => {
         try {
-            console.log('args ', args);
-            console.log('extra ', extra);
+            logger.info('args ', args);
+            logger.info('extra ', extra);
             const userAddress = "default-user";
             
             const entity = toolset.client.getEntity(userAddress);
@@ -24,7 +25,7 @@ export function registerTools(server: McpServer) {
                 }],
             };
         } catch (error) {
-            console.error('Error initiating Gmail connection:', error);
+            logger.error('Error initiating Gmail connection:', error);
             return {
                 content: [{ 
                     type: "text", 
@@ -34,10 +35,13 @@ export function registerTools(server: McpServer) {
         }
     });
 
-    server.tool("check_gmail_connection", "Check Gmail connection status", {}, async (args, extra) => {
+    server.tool("check_gmail_connection", "Check Gmail connection status", {
+        identity_token: z.string().describe("The identity token of the user")
+    }, async (args, extra) => {
         try {
-            console.log('args ', args);
-            console.log('extra ', extra);
+            logger.info('args ', args);
+            logger.info('extra ', extra);
+            logger.info('identity_token ', args.identity_token);
             
             const userAddress = "default-user";
             
@@ -64,7 +68,7 @@ export function registerTools(server: McpServer) {
                 };
             }
         } catch (error) {
-            console.error('Error checking Gmail connection:', error);
+            logger.error('Error checking Gmail connection:', error);
             return {
                 content: [{ 
                     type: "text", 
@@ -105,7 +109,7 @@ export function registerTools(server: McpServer) {
                 };
             }
         } catch (error) {
-            console.error('Error sending email:', error);
+            logger.error('Error sending email:', error);
             return {
                 content: [{ 
                     type: "text", 
@@ -150,7 +154,7 @@ export function registerTools(server: McpServer) {
                 };
             }
         } catch (error) {
-            console.error('Error getting emails:', error);
+            logger.error('Error getting emails:', error);
             return {
                 content: [{ 
                     type: "text", 
@@ -189,13 +193,13 @@ export function registerTools(server: McpServer) {
                 };
             }
         } catch (error) {
-            console.error('Error getting email:', error);
+            logger.error('Error getting email:', error);
             return {
                 content: [{ 
                     type: "text", 
                     text: `Error getting email: ${error instanceof Error ? error.message : String(error)}` 
                 }],
-            };
+            }; 
         }
     });
 
@@ -228,7 +232,7 @@ export function registerTools(server: McpServer) {
                 };
             }
         } catch (error) {
-            console.error('Error sending reply:', error);
+            logger.error('Error sending reply:', error);
             return {
                 content: [{ 
                     type: "text", 
@@ -268,7 +272,7 @@ export function registerTools(server: McpServer) {
                 };
             }
         } catch (error) {
-            console.error('Error forwarding email:', error);
+            logger.error('Error forwarding email:', error);
             return {
                 content: [{ 
                     type: "text", 
@@ -313,7 +317,7 @@ export function registerTools(server: McpServer) {
                 };
             }
         } catch (error) {
-            console.error('Error searching emails:', error);
+            logger.error('Error searching emails:', error);
             return {
                 content: [{ 
                     type: "text", 
@@ -352,7 +356,7 @@ export function registerTools(server: McpServer) {
                 };
             }
         } catch (error) {
-            console.error('Error marking emails as read:', error);
+            logger.error('Error marking emails as read:', error);
             return {
                 content: [{ 
                     type: "text", 
@@ -362,7 +366,7 @@ export function registerTools(server: McpServer) {
         }
     });
 
-    server.tool("mark_as_unread", "Mark emails as unread", {
+    server.tool("mark_as_unread", "Mark emails as unread",   {
         emailIds: z.array(z.string()).describe("Array of email IDs to mark as unread"),
     }, async (args, extra) => {
         try {
@@ -390,14 +394,14 @@ export function registerTools(server: McpServer) {
                 };
             }
         } catch (error) {
-            console.error('Error marking emails as unread:', error);
+            logger.error('Error marking emails as unread:', error);
             return {
                 content: [{ 
                     type: "text", 
                     text: `Error marking emails as unread: ${error instanceof Error ? error.message : String(error)}` 
                 }],
             };
-        }
+        }       
     });
 
     server.tool("move_to_trash", "Move emails to trash", {
@@ -428,7 +432,7 @@ export function registerTools(server: McpServer) {
                 };
             }
         } catch (error) {
-            console.error('Error moving emails to trash:', error);
+            logger.error('Error moving emails to trash:', error);
             return {
                 content: [{ 
                     type: "text", 
@@ -465,7 +469,7 @@ export function registerTools(server: McpServer) {
                 };
             }
         } catch (error) {
-            console.error('Error getting Gmail settings:', error);
+            logger.error('Error getting Gmail settings:', error);
             return {
                 content: [{ 
                     type: "text", 
