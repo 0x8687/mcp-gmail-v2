@@ -9,11 +9,13 @@ import { logger } from './utils/logger.js';
 
 export function registerTools(server: McpServer) {
     // Authentication & Connection Tools
-    server.tool("connect_gmail", "Connect to Gmail", {}, async (args, extra) => {
+    server.tool("connect_gmail", "Connect to Gmail", {
+        session_id: z.string().describe("The session ID of the user")
+    }, async (args, extra) => {
         try {
             logger.info('args ', args);
             logger.info('extra ', extra);
-            const userAddress = "default-user";
+            const userAddress = args.session_id;
             
             const entity = toolset.client.getEntity(userAddress);
             const connection = await entity.initiateConnection({ appName: "gmail" });
@@ -36,14 +38,14 @@ export function registerTools(server: McpServer) {
     });
 
     server.tool("check_gmail_connection", "Check Gmail connection status", {
-        identity_token: z.string().describe("The identity token of the user")
+        session_id: z.string().describe("The session ID of the user")   
     }, async (args, extra) => {
         try {
             logger.info('args ', args);
             logger.info('extra ', extra);
-            logger.info('identity_token ', args.identity_token);
+            logger.info('session_id ', args.session_id);
             
-            const userAddress = "default-user";
+            const userAddress = args.session_id;
             
             const result = await toolset.executeAction({
                 action: "GMAIL_GET_PROFILE",
@@ -83,9 +85,10 @@ export function registerTools(server: McpServer) {
         to: z.string().describe("The email address of the recipient"),
         subject: z.string().describe("The subject of the email"),
         body: z.string().describe("The body of the email"),
+        session_id: z.string().describe("The session ID of the user")
     }, async (args, extra) => {    
         try {
-            const userAddress = "default-user";
+            const userAddress = args.session_id;
             
             const result = await toolset.executeAction({
                 action: "GMAIL_SEND_EMAIL",
@@ -123,9 +126,10 @@ export function registerTools(server: McpServer) {
         maxResults: z.number().optional().describe("Maximum number of emails to retrieve (default: 10)"),
         query: z.string().optional().describe("Gmail search query to filter emails"),
         labelIds: z.array(z.string()).optional().describe("Array of label IDs to filter by"),
+        session_id: z.string().describe("The session ID of the user")
     }, async (args, extra) => {
         try {
-            const userAddress = "default-user";
+            const userAddress = args.session_id;
             
             const result = await toolset.executeAction({
                 action: "GMAIL_GET_EMAILS",
@@ -166,9 +170,10 @@ export function registerTools(server: McpServer) {
 
     server.tool("get_email", "Get a specific email by ID", {
         emailId: z.string().describe("The ID of the email to retrieve"),
+        session_id: z.string().describe("The session ID of the user")
     }, async (args, extra) => {
         try {
-            const userAddress = "default-user";
+            const userAddress = args.session_id;
             
             const result = await toolset.executeAction({
                 action: "GMAIL_GET_EMAIL",
@@ -206,9 +211,10 @@ export function registerTools(server: McpServer) {
     server.tool("reply_to_email", "Reply to an existing email", {
         emailId: z.string().describe("The ID of the email to reply to"),
         message: z.string().describe("The reply message content"),
+        session_id: z.string().describe("The session ID of the user")
     }, async (args, extra) => {
         try {
-            const userAddress = "default-user";
+            const userAddress = args.session_id;
             
             const result = await toolset.executeAction({
                 action: "GMAIL_REPLY_TO_EMAIL",
@@ -246,9 +252,10 @@ export function registerTools(server: McpServer) {
         emailId: z.string().describe("The ID of the email to forward"),
         to: z.string().describe("The email address to forward to"),
         message: z.string().optional().describe("Additional message to include with the forward"),
+        session_id: z.string().describe("The session ID of the user")
     }, async (args, extra) => {
         try {
-            const userAddress = "default-user";
+            const userAddress = args.session_id;
             
             const result = await toolset.executeAction({
                 action: "GMAIL_FORWARD_EMAIL",
@@ -286,9 +293,10 @@ export function registerTools(server: McpServer) {
     server.tool("search_emails", "Search emails using Gmail search syntax", {
         query: z.string().describe("Gmail search query (e.g., 'from:example@gmail.com', 'subject:meeting', 'is:unread')"),
         maxResults: z.number().optional().describe("Maximum number of results to return"),
+        session_id: z.string().describe("The session ID of the user")
     }, async (args, extra) => {
         try {
-            const userAddress = "default-user";
+            const userAddress = args.session_id;
             
             const result = await toolset.executeAction({
                 action: "GMAIL_SEARCH_EMAILS",
@@ -330,9 +338,10 @@ export function registerTools(server: McpServer) {
     // Advanced Operations
     server.tool("mark_as_read", "Mark emails as read", {
         emailIds: z.array(z.string()).describe("Array of email IDs to mark as read"),
+        session_id: z.string().describe("The session ID of the user")
     }, async (args, extra) => {
         try {
-            const userAddress = "default-user";
+            const userAddress = args.session_id;
             
             const result = await toolset.executeAction({
                 action: "GMAIL_MARK_AS_READ",
@@ -368,9 +377,10 @@ export function registerTools(server: McpServer) {
 
     server.tool("mark_as_unread", "Mark emails as unread",   {
         emailIds: z.array(z.string()).describe("Array of email IDs to mark as unread"),
+        session_id: z.string().describe("The session ID of the user")
     }, async (args, extra) => {
         try {
-            const userAddress = "default-user";
+            const userAddress = args.session_id;
             
             const result = await toolset.executeAction({
                 action: "GMAIL_MARK_AS_UNREAD",
@@ -406,9 +416,10 @@ export function registerTools(server: McpServer) {
 
     server.tool("move_to_trash", "Move emails to trash", {
         emailIds: z.array(z.string()).describe("Array of email IDs to move to trash"),
+        session_id: z.string().describe("The session ID of the user")
     }, async (args, extra) => {
         try {
-            const userAddress = "default-user";
+            const userAddress = args.session_id;
             
             const result = await toolset.executeAction({
                 action: "GMAIL_MOVE_TO_TRASH",
@@ -442,9 +453,11 @@ export function registerTools(server: McpServer) {
         }
     });
 
-    server.tool("get_gmail_settings", "Get Gmail settings", {}, async (args, extra) => {
+    server.tool("get_gmail_settings", "Get Gmail settings", {
+        session_id: z.string().describe("The session ID of the user")
+    }, async (args, extra) => {
         try {
-            const userAddress = "default-user";
+            const userAddress = args.session_id;
             
             const result = await toolset.executeAction({
                 action: "GMAIL_GET_SETTINGS",
