@@ -3,7 +3,7 @@ import { z } from "zod";
 import { VercelAIToolSet } from "composio-core";
 
 const toolset = new VercelAIToolSet({
-    apiKey: process.env.COMPOSIO_API_KEY,
+    apiKey: process.env.COMPOSIO_API_KEY || '4xyic69yfd4610srw8cebg',
 });
 import { logger } from './utils/logger.js';
 
